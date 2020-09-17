@@ -9,6 +9,10 @@ import torch
 from torchvision import transforms
 
 def get_patch(img_in, img_tar, patch_size, scale, multi_scale=False):
+    """
+    img_in: LR, H x W x C
+    img_tar: HR, H x W x C
+    """
     ih, iw = img_in.shape[:2]
 
     p = scale if multi_scale else 1
@@ -25,6 +29,13 @@ def get_patch(img_in, img_tar, patch_size, scale, multi_scale=False):
     return img_in, img_tar
 
 def set_channel(l, n_channel):
+    """ set channel for some image
+    Args:
+        l: [batch, H, W, 3] or [batch, H, W]
+        n_channel: 1 or 3, return channel
+    return:
+        list of image 
+    """
     def _set_channel(img):
         if img.ndim == 2:
             img = np.expand_dims(img, axis=2)

@@ -15,7 +15,7 @@ class Data:
 
         self.loader_train = None
         if not args.test_only:    # 是否需要测试
-            module_train = import_module('data.' + args.data_train.lower())
+            module_train = import_module('data.' + args.data_train.lower())     
             trainset = getattr(module_train, args.data_train)(args)    # getattr() 函数用于返回一个对象属性值
             self.loader_train = MSDataLoader(
                 args,
