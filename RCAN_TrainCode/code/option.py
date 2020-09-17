@@ -154,7 +154,7 @@ args.scale = list(map(lambda x: int(x), args.scale.split('+')))
 if args.epochs == 0:
     args.epochs = 1e8
 
-for arg in vars(args):
+for arg in vars(args):   # str 2 bool
     if vars(args)[arg] == 'True':
         vars(args)[arg] = True
     elif vars(args)[arg] == 'False':
