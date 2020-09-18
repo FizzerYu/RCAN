@@ -14,7 +14,7 @@ class Data:
             kwargs['pin_memory'] = False
 
         self.loader_train = None
-        if not args.test_only:    # 是否需要测试
+        if not args.test_only:    # 是否需要训练
             module_train = import_module('data.' + args.data_train.lower())     
             trainset = getattr(module_train, args.data_train)(args)    # getattr() 函数用于返回一个对象属性值
             self.loader_train = MSDataLoader(
