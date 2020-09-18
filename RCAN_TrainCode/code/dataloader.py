@@ -7,19 +7,32 @@ import collections
 import torch
 import torch.multiprocessing as multiprocessing
 
-from torch._C import _set_worker_signal_handlers, _update_worker_pids, \
-    _remove_worker_pids, _error_if_any_worker_fails
+##############################################################################################
+#  old version of pytorch
+# from torch._C import _set_worker_signal_handlers, _update_worker_pids, \
+#     _remove_worker_pids, _error_if_any_worker_fails
+# from torch.utils.data.dataloader import DataLoader
+# from torch.utils.data.dataloader import _DataLoaderIter
+
+# from torch.utils.data.dataloader import ExceptionWrapper
+# from torch.utils.data.dataloader import _use_shared_memory
+# from torch.utils.data.dataloader import _worker_manager_loop
+# from torch.utils.data.dataloader import numpy_type_map
+# from torch.utils.data.dataloader import default_collate
+# from torch.utils.data.dataloader import pin_memory_batch
+# from torch.utils.data.dataloader import _SIGCHLD_handler_set
+# from torch.utils.data.dataloader import _set_SIGCHLD_handler
+
+##############################################################################################
+# pytorch 1.1 support
+from torch._C import _set_worker_signal_handlers
+from torch.utils.data import _utils
 from torch.utils.data.dataloader import DataLoader
 from torch.utils.data.dataloader import _DataLoaderIter
+ 
+_use_shared_memory = False
 
-from torch.utils.data.dataloader import ExceptionWrapper
-from torch.utils.data.dataloader import _use_shared_memory
-from torch.utils.data.dataloader import _worker_manager_loop
-from torch.utils.data.dataloader import numpy_type_map
-from torch.utils.data.dataloader import default_collate
-from torch.utils.data.dataloader import pin_memory_batch
-from torch.utils.data.dataloader import _SIGCHLD_handler_set
-from torch.utils.data.dataloader import _set_SIGCHLD_handler
+##############################################################################################
 
 if sys.version_info[0] == 2:
     import Queue as queue
