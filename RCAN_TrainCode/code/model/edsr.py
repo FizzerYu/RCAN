@@ -1,3 +1,14 @@
+
+# Enhanced Deep Residual Networks for Single Image Super-Resolution
+
+# https://arxiv.org/abs/1707.02921
+
+# EDSR: single-scale SR network (EDSR).
+
+# conv - > resblock -> ··· resblock -> upsample -> conv 
+
+
+
 from model import common
 
 import torch.nn as nn
@@ -7,6 +18,13 @@ def make_model(args, parent=False):
 
 class EDSR(nn.Module):
     def __init__(self, args, conv=common.default_conv):
+        """
+        def default_conv(in_channels, out_channels, kernel_size, bias=True):
+            return nn.Conv2d(
+                in_channels, out_channels, kernel_size,
+                padding=(kernel_size//2), bias=bias)
+        
+        """
         super(EDSR, self).__init__()
 
         n_resblock = args.n_resblocks
@@ -44,9 +62,9 @@ class EDSR(nn.Module):
 
     def forward(self, x):
         x = self.sub_mean(x)
-        x = self.head(x)
+        x = self.head(x) 
 
-        res = self.body(x)
+        res = self.body(x)   # n_resblock 个 ResBlock
         res += x
 
         x = self.tail(res)

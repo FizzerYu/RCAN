@@ -1,6 +1,10 @@
 # Deep Back-Projection Networks For Super-Resolution
 # https://arxiv.org/abs/1803.02735
 
+# DBPN-Pytorch
+# https://github.com/alterzero/DBPN-Pytorch
+
+
 from model import common
 
 import torch
@@ -17,7 +21,7 @@ def projection_conv(in_channels, out_channels, scale, up=True):
         8: (12, 8, 2)
     }[scale]
     if up:
-        conv_f = nn.ConvTranspose2d
+        conv_f = nn.ConvTranspose2d   # 逆卷积
     else:
         conv_f = nn.Conv2d
 
@@ -27,6 +31,9 @@ def projection_conv(in_channels, out_channels, scale, up=True):
     )
 
 class DenseProjection(nn.Module):
+    """对应论文中的 Dense Up-Projection Unit or Dense Up-Projection Unit， 取决于 up 的取值
+    
+    """
     def __init__(self, in_channels, nr, scale, up=True, bottleneck=True):
         super(DenseProjection, self).__init__()
         if bottleneck:

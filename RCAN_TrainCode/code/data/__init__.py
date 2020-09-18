@@ -14,7 +14,7 @@ class Data:
             kwargs['pin_memory'] = False
 
         self.loader_train = None
-        if not args.test_only:    # 是否需要测试
+        if not args.test_only:    # 是否需要训练
             module_train = import_module('data.' + args.data_train.lower())     
             trainset = getattr(module_train, args.data_train)(args)    # getattr() 函数用于返回一个对象属性值
             self.loader_train = MSDataLoader(
@@ -26,7 +26,7 @@ class Data:
             )
 
         if args.data_test in ['Set5', 'Set14', 'B100', 'Urban100']:  
-            if not args.benchmark_noise:
+            if not args.benchmark_noise:   # use noisy benchmark sets
                 module_test = import_module('data.benchmark')
                 testset = getattr(module_test, 'Benchmark')(args, train=False)
             else:
