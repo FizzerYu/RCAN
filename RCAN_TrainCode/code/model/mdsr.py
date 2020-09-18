@@ -1,3 +1,11 @@
+"""
+
+EDSR 的加强版，
+> “MDSR的中间部分还是和EDSR一样，只是在网络前面添加了不同的预训练好的模型来减少不同倍数的输入图片的差异。在网络最后，不同倍数上采样的结构平行排列来获得不同倍数的输出结果。”
+> https://zhuanlan.zhihu.com/p/31664818
+"""
+
+
 from model import common
 
 import torch.nn as nn
@@ -50,8 +58,8 @@ class MDSR(nn.Module):
         self.tail = nn.Sequential(*m_tail)
 
     def forward(self, x):
-        x = self.sub_mean(x)
-        x = self.head(x)
+        x = self.sub_mean(x)  #做某一个的处理 kernel size的均值方差
+        x = self.head(x)      # 普通的conv
         x = self.pre_process[self.scale_idx](x)
 
         res = self.body(x)

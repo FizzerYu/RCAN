@@ -12,6 +12,11 @@ def default_conv(in_channels, out_channels, kernel_size, bias=True):
         padding=(kernel_size//2), bias=bias)
 
 class MeanShift(nn.Conv2d):
+"""
+rgb_mean = (0.4488, 0.4371, 0.4040)
+rgb_std = (1.0, 1.0, 1.0)
+common.MeanShift(args.rgb_range, rgb_mean, rgb_std)
+"""
     def __init__(self, rgb_range, rgb_mean, rgb_std, sign=-1):
         super(MeanShift, self).__init__(3, 3, kernel_size=1)
         std = torch.Tensor(rgb_std)
@@ -35,6 +40,9 @@ class BasicBlock(nn.Sequential):
         super(BasicBlock, self).__init__(*m)
 
 class ResBlock(nn.Module):
+    """
+    A standard res block
+    """
     def __init__(
         self, conv, n_feat, kernel_size,
         bias=True, bn=False, act=nn.ReLU(True), res_scale=1):
@@ -42,7 +50,7 @@ class ResBlock(nn.Module):
         super(ResBlock, self).__init__()
         m = []
         for i in range(2):
-            m.append(conv(n_feat, n_feat, kernel_size, bias=bias))
+            m.append(conv(n_feat, n_feat, kernel_size, bias=bias))   # conv 默认对应 default_conv
             if bn: m.append(nn.BatchNorm2d(n_feat))
             if i == 0: m.append(act)
 

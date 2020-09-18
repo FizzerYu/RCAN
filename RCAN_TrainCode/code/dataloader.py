@@ -21,7 +21,7 @@ from torch.utils.data.dataloader import pin_memory_batch
 from torch.utils.data.dataloader import _SIGCHLD_handler_set
 from torch.utils.data.dataloader import _set_SIGCHLD_handler
 
-if sys.version_info[0] == 2:
+if sys.version_info[0] == 2:   #python版本号
     import Queue as queue
 else:
     import queue

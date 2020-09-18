@@ -10,11 +10,22 @@ import torch
 import torch.utils.data as data
 
 class DIV2K(srdata.SRData):
+    """继承自 srdata 的类
+
+    """
     def __init__(self, args, train=True):
         super(DIV2K, self).__init__(args, train)
-        self.repeat = args.test_every // (args.n_train // args.batch_size)
+        # test_every: do test per every N batches
+        # n_train: number of training set
+        self.repeat = args.test_every // (args.n_train // args.batch_size) # 1000 / (800 // 32) = 1000 // 31iter = 32
 
     def _scan(self):
+        """
+        Return:
+            list_hr: a list of hr image path
+            list_lr: a list of lr image path [[scale1_pic1, scale1_pic2, scale1_pic3,...], [scale2_pic1, scale2_pic2, scale2_pic3,...], ...]
+        """
+
         list_hr = []
         list_lr = [[] for _ in self.scale]
         if self.train:
@@ -56,8 +67,12 @@ class DIV2K(srdata.SRData):
         )
 
     def __len__(self):
+        """
+        虚拟出一个epoch，之前是 iter 个 batch_size 之后结束一个 epoch ，然后valid在 test_every 个 iter 之后测试
+        现在将一个 epoch 虚拟为 n_train * repeat =  n_train * (test_every // (n_train // batch_size))
+        """
         if self.train:
-            return len(self.images_hr) * self.repeat
+            return len(self.images_hr) * self.repeat   
         else:
             return len(self.images_hr)
 
