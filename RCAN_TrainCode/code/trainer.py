@@ -42,13 +42,13 @@ class Trainer():
         self.model.train()
 
         timer_data, timer_model = utility.timer(), utility.timer()
-        for batch, (lr, hr, _, idx_scale) in enumerate(self.loader_train):
+        for batch, (lr, hr, _) in enumerate(self.loader_train):  # lr, hr, index
             lr, hr = self.prepare([lr, hr])
             timer_data.hold()
             timer_model.tic()
 
             self.optimizer.zero_grad()
-            sr = self.model(lr, idx_scale)
+            sr = self.model(lr, self.scale)
             loss = self.loss(sr, hr)
             if loss.item() < self.args.skip_threshold * self.error_last:
                 loss.backward()

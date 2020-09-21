@@ -9,7 +9,7 @@ import torch
 from torchvision import transforms
 
 def get_patch(img_in, img_tar, patch_size, scale, multi_scale=False):
-    """
+    """get patch
     img_in: LR, H x W x C
     img_tar: HR, H x W x C
     """

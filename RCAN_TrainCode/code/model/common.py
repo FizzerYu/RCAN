@@ -12,11 +12,11 @@ def default_conv(in_channels, out_channels, kernel_size, bias=True):
         padding=(kernel_size//2), bias=bias)
 
 class MeanShift(nn.Conv2d):
-"""
-rgb_mean = (0.4488, 0.4371, 0.4040)
-rgb_std = (1.0, 1.0, 1.0)
-common.MeanShift(args.rgb_range, rgb_mean, rgb_std)
-"""
+    """
+    rgb_mean = (0.4488, 0.4371, 0.4040)
+    rgb_std = (1.0, 1.0, 1.0)
+    common.MeanShift(args.rgb_range, rgb_mean, rgb_std)
+    """
     def __init__(self, rgb_range, rgb_mean, rgb_std, sign=-1):
         super(MeanShift, self).__init__(3, 3, kernel_size=1)
         std = torch.Tensor(rgb_std)

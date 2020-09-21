@@ -1,7 +1,8 @@
 from importlib import import_module
 
-from dataloader import MSDataLoader
-from torch.utils.data.dataloader import default_collate
+# from dataloader import MSDataLoader
+from torch.utils.data import DataLoader
+# from torch.utils.data.dataloader import default_collate
 
 class Data:
     def __init__(self, args):
@@ -17,8 +18,8 @@ class Data:
         if not args.test_only:    # 是否需要训练
             module_train = import_module('data.' + args.data_train.lower())     
             trainset = getattr(module_train, args.data_train)(args)    # getattr() 函数用于返回一个对象属性值
-            self.loader_train = MSDataLoader(
-                args,
+
+            self.loader_train = DataLoader(
                 trainset,
                 batch_size=args.batch_size,
                 shuffle=True,
@@ -29,7 +30,7 @@ class Data:
             if not args.benchmark_noise:   # use noisy benchmark sets
                 module_test = import_module('data.benchmark')
                 testset = getattr(module_test, 'Benchmark')(args, train=False)
-            else:
+            else:                          # prepare to delete
                 module_test = import_module('data.benchmark_noise')
                 testset = getattr(module_test, 'BenchmarkNoise')(
                     args,
@@ -40,8 +41,7 @@ class Data:
             module_test = import_module('data.' +  args.data_test.lower())
             testset = getattr(module_test, args.data_test)(args, train=False)
 
-        self.loader_test = MSDataLoader(
-            args,
+        self.loader_test = DataLoader(
             testset,
             batch_size=1,
             shuffle=False,

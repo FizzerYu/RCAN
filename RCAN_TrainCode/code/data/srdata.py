@@ -17,7 +17,7 @@ class SRData(data.Dataset):
         self.scale = args.scale
         self.idx_scale = 0
 
-        self._set_filesystem(args.dir_data)
+        self._set_filesystem(args.dir_data)   # 对于div2k来说dir_hr，dir_lr，ext
 
         def _load_bin():
             self.images_hr = np.load(self._name_hrbin())
@@ -25,26 +25,37 @@ class SRData(data.Dataset):
                 np.load(self._name_lrbin(s)) for s in self.scale
             ]
 
-        if args.ext == 'img' or benchmark:
-            self.images_hr, self.images_lr = self._scan()
+
+        """
+        1. benchmark --> 测试集 或者 args.ext == 'img'
+            获得路径
+        2. args.ext.find('sep')     文件分开存储为npy格式
+            sep                     读npy格式的文件
+            sep_reset               转换文件格式+读npy格式的文件
+        3. args.ext.find('bin')     所有图片文件存成一个文件
+            bin                     读npy格式的文件（一个）
+            bin_reset               转换文件格式+读npy格式的文件
+        """
+        if args.ext == 'img' or benchmark:    # benchmark --> 测试集 或者 img
+            self.images_hr, self.images_lr = self._scan()   # 获得所有图片路径
         elif args.ext.find('sep') >= 0:
-            self.images_hr, self.images_lr = self._scan()
+            self.images_hr, self.images_lr = self._scan()   # 获得所有图片路径
             if args.ext.find('reset') >= 0:
                 print('Preparing seperated binary files')
-                for v in self.images_hr:
+                for v in self.images_hr:                    # hr 循环转换 .png --> .npy
                     hr = misc.imread(v)
                     name_sep = v.replace(self.ext, '.npy')
                     np.save(name_sep, hr)
-                for si, s in enumerate(self.scale):
+                for si, s in enumerate(self.scale):         # hr 循环转换 .png --> .npy
                     for v in self.images_lr[si]:
                         lr = misc.imread(v)
                         name_sep = v.replace(self.ext, '.npy')
                         np.save(name_sep, lr)
 
-            self.images_hr = [
+            self.images_hr = [                              # 新的 list 存储 hr 数据路径
                 v.replace(self.ext, '.npy') for v in self.images_hr
             ]
-            self.images_lr = [
+            self.images_lr = [                              # 新的 list 存储 lr 数据路径
                 [v.replace(self.ext, '.npy') for v in self.images_lr[i]]
                 for i in range(len(self.scale))
             ]
@@ -57,13 +68,13 @@ class SRData(data.Dataset):
                 _load_bin()
             except:
                 print('Preparing a binary file')
-                bin_path = os.path.join(self.apath, 'bin')
+                bin_path = os.path.join(self.apath, 'bin')    # self.apath = dir_data + '/DIV2K800'
                 if not os.path.isdir(bin_path):
                     os.mkdir(bin_path)
 
                 list_hr, list_lr = self._scan()
                 hr = [misc.imread(f) for f in list_hr]
-                np.save(self._name_hrbin(), hr)
+                np.save(self._name_hrbin(), hr)               # hr 是个 list 存储了所有的图片信息
                 del hr
                 for si, s in enumerate(self.scale):
                     lr_scale = [misc.imread(f) for f in list_lr[si]]
@@ -85,7 +96,7 @@ class SRData(data.Dataset):
     def _name_lrbin(self, scale):
         raise NotImplementedError
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx):                     # dataset标准
         lr, hr, filename = self._load_file(idx)
         lr, hr = self._get_patch(lr, hr)
         lr, hr = common.set_channel([lr, hr], self.args.n_colors)

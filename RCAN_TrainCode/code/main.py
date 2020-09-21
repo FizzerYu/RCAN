@@ -12,7 +12,7 @@ checkpoint = utility.checkpoint(args)
 
 if checkpoint.ok:
     loader = data.Data(args)   # dataset&dataloader
-    model = model.Model(args, checkpoint)
+    model = model.Model(args, checkpoint)   
     loss = loss.Loss(args, checkpoint) if not args.test_only else None
     t = Trainer(args, loader, model, loss, checkpoint)
     while not t.terminate():

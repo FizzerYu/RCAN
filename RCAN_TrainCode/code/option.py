@@ -19,13 +19,13 @@ parser.add_argument('--seed', type=int, default=1,
                     help='random seed')
 
 # Data specifications
-parser.add_argument('--dir_data', type=str, default='/home/yulun/data/SR/traindata/DIV2K/bicubic', # /titan_data1/lxy/dataset/DIV2K800/
+parser.add_argument('--dir_data', type=str, default='/titan_data1/lxy/dataset/', # /titan_data1/lxy/dataset/DIV2K800/
                     help='dataset directory')
 parser.add_argument('--dir_demo', type=str, default='../test',
                     help='demo image directory')
 parser.add_argument('--data_train', type=str, default='DIV2K',
                     help='train dataset name')
-parser.add_argument('--data_test', type=str, default='DIV2K',
+parser.add_argument('--data_test', type=str, default='Set5',
                     help='test dataset name')
 parser.add_argument('--benchmark_noise', action='store_true',
                     help='use noisy benchmark sets')
@@ -35,7 +35,7 @@ parser.add_argument('--n_val', type=int, default=5,
                     help='number of validation set')
 parser.add_argument('--offset_val', type=int, default=800,
                     help='validation index offest')
-parser.add_argument('--ext', type=str, default='sep_reset',
+parser.add_argument('--ext', type=str, default='sep',  #sep_reset
                     help='dataset file extension')
 parser.add_argument('--scale', default='4',
                     help='super resolution scale')
@@ -122,7 +122,7 @@ parser.add_argument('--skip_threshold', type=float, default='1e6',
 # Log specifications
 parser.add_argument('--save', type=str, default='test',
                     help='file name to save')
-parser.add_argument('--load', type=str, default='.',
+parser.add_argument('--load', type=str, default='.',   # 加载预训练模型
                     help='file name to load')
 parser.add_argument('--resume', type=int, default=0,
                     help='resume from specific checkpoint')
