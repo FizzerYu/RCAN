@@ -1,3 +1,10 @@
+# Notes
+1. This repository is forked from [yulunzhang/RCAN](https://github.com/yulunzhang/RCAN)
+2. To support PyTorch 1.6.0. I deleted the ```dataloader.py``` and modify the Dataloader. It will not affect RCAN.
+3. Add some notes.
+4. Have Fun! 🎇
+
+
 # Image Super-Resolution Using Very Deep Residual Channel Attention Networks
 This repository is for RCAN introduced in the following paper
 
