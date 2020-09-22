@@ -21,7 +21,7 @@ class Model(nn.Module):
         self.save_models = args.save_models
 
         module = import_module('model.' + args.model.lower())
-        self.model = module.make_model(args).to(self.device)
+        self.model = module.make_model(args).to(self.device)   # 加载模型
         if args.precision == 'half': self.model.half()
 
         if not args.cpu and args.n_GPUs > 1:
@@ -33,7 +33,16 @@ class Model(nn.Module):
             resume=args.resume,
             cpu=args.cpu
         )
-        if args.print_model: print(self.model)
+        if args.print_model: 
+            print('===> model summary')
+            try:
+                # print(get_parameter_number(model))
+                from torchsummary import summary
+                summary(self.model, (3, args.patch_size, args.patch_size), depth=8, verbose=1, 
+                                    col_names=["input_size", "output_size","kernel_size", "num_params","mult_adds"])
+            except:
+                print('Need install torch-summary from "pip install torch-summary" ')
+                print(self.model)
 
     def forward(self, x, idx_scale):
         self.idx_scale = idx_scale

@@ -51,15 +51,15 @@ class DIV2K(srdata.SRData):
             for si, s in enumerate(self.scale):
                 list_lr[si].append(os.path.join(
                     self.dir_lr,
-                    'X{}/{}x{}{}'.format(s, filename, s, self.ext)
+                    'X{}.00/{}{}'.format(s, filename,  self.ext)  # img 的话会被自动转换成 .png 见下面
                 ))
 
         return list_hr, list_lr
 
     def _set_filesystem(self, dir_data):
-        self.apath = dir_data + '/DIV2K800'   # 原始是DIV2K，但是咱也不知道为啥就800了，咱也不敢问
-        self.dir_hr = os.path.join(self.apath, 'DIV2K_train_HR')
-        self.dir_lr = os.path.join(self.apath, 'DIV2K_train_LR_bicubic')
+        self.apath = dir_data + '/DIV2K'   # 原始是DIV2K，但是咱也不知道为啥就800了，咱也不敢问
+        self.dir_hr = os.path.join(self.apath, 'HR')
+        self.dir_lr = os.path.join(self.apath, 'LR_bicubic')
         self.ext = '.png'
 
     def _name_hrbin(self):                    # 存储了所有的图片的 .npy 文件

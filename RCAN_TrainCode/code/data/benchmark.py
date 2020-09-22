@@ -22,7 +22,7 @@ class Benchmark(srdata.SRData):
             for si, s in enumerate(self.scale):
                 list_lr[si].append(os.path.join(
                     self.dir_lr,
-                    'X{}/{}x{}{}'.format(s, filename, s, self.ext)
+                    'X{}.00/{}{}'.format(s, filename, self.ext)
                 ))
 
         list_hr.sort()

@@ -19,7 +19,7 @@ parser.add_argument('--seed', type=int, default=1,
                     help='random seed')
 
 # Data specifications
-parser.add_argument('--dir_data', type=str, default='/titan_data1/lxy/dataset/', # /titan_data1/lxy/dataset/DIV2K800/
+parser.add_argument('--dir_data', type=str, default='/home/chenjunming/fizzer/RCAN/RCAN_TrainCode/code', # 需要同时有 benchmark and DIV2K 文件
                     help='dataset directory')
 parser.add_argument('--dir_demo', type=str, default='../test',
                     help='demo image directory')
@@ -35,7 +35,7 @@ parser.add_argument('--n_val', type=int, default=5,
                     help='number of validation set')
 parser.add_argument('--offset_val', type=int, default=800,
                     help='validation index offest')
-parser.add_argument('--ext', type=str, default='sep',  #sep_reset
+parser.add_argument('--ext', type=str, default='img',  #sep_reset
                     help='dataset file extension')
 parser.add_argument('--scale', default='4',
                     help='super resolution scale')

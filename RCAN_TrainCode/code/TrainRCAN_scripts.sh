@@ -18,3 +18,5 @@ LOG=./../experiment/RCAN_BIX2_G10R20P48-`date +%Y-%m-%d-%H-%M-%S`.txt
 #LOG=./../experiment/RCAN_BIX8_G10R20P48-`date +%Y-%m-%d-%H-%M-%S`.txt
 #CUDA_VISIBLE_DEVICES=0 python main.py --model RCAN --save RCAN_BIX8_G10R20P48 --scale 8 --n_resgroups 10 --dir_data '.png' --n_resblocks 20 --n_feats 64  --reset --chop --save_results --print_model --patch_size 384 --pre_train ../experiment/model/RCAN_BIX2.pt 2>&1 | tee $LOG
 
+# mytest
+# CUDA_VISIBLE_DEVICES=0 mypython main.py --model RCAN --save RCAN_BIX2_G10R20P48 --scale 4 --n_resgroups 10 --n_resblocks 20 --n_feats 64  --reset --chop --save_results --print_model --patch_size 96 2>&1 | tee $LOG

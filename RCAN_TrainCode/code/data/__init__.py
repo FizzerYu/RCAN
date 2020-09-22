@@ -2,7 +2,7 @@ from importlib import import_module
 
 # from dataloader import MSDataLoader
 from torch.utils.data import DataLoader
-# from torch.utils.data.dataloader import default_collate
+from torch.utils.data.dataloader import default_collate
 
 class Data:
     def __init__(self, args):
