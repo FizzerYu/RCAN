@@ -78,7 +78,7 @@ class checkpoint():
     def save(self, trainer, epoch, is_best=False):
         trainer.model.save(self.dir, epoch, is_best=is_best)
         trainer.loss.save(self.dir)
-        trainer.loss.plot_loss(self.dir, epoch)
+        trainer.loss.plot_loss(self.dir, epoch)    # 这里出bug  指向loss内的啥
 
         self.plot_psnr(epoch)
         torch.save(self.log, os.path.join(self.dir, 'psnr_log.pt'))

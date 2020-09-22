@@ -123,7 +123,7 @@ class Trainer():
             'Total time: {:.2f}s\n'.format(timer_test.toc()), refresh=True
         )
         if not self.args.test_only:
-            self.ckp.save(self, epoch, is_best=(best[1][0] + 1 == epoch))
+            self.ckp.save(self, epoch, is_best=(best[1][0] + 1 == epoch))   # -->ckp --> checkpoint = utility.checkpoint(args)
 
     def prepare(self, l, volatile=False):
         device = torch.device('cpu' if self.args.cpu else 'cuda')
