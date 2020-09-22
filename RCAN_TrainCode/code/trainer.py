@@ -43,7 +43,7 @@ class Trainer():
 
         timer_data, timer_model = utility.timer(), utility.timer()
         for batch, (lr, hr, _) in enumerate(self.loader_train):  # lr, hr, index
-            lr, hr = self.prepare([lr, hr])
+            lr, hr = self.prepare([lr, hr])      # to tensor
             timer_data.hold()
             timer_model.tic()
 

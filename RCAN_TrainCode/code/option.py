@@ -85,7 +85,7 @@ parser.add_argument('--split_batch', type=int, default=1,
                     help='split the batch into smaller chunks')
 parser.add_argument('--self_ensemble', action='store_true',
                     help='use self-ensemble method for test')
-parser.add_argument('--test_only', action='store_true',
+parser.add_argument('--test_only', action='store_true',   #当在终端运行的时候，如果不加入--test_only, 那么程序running的时候，test_only的值为default: False
                     help='set this option to test the model')
 parser.add_argument('--gan_k', type=int, default=1,
                     help='k value for adversarial loss')
