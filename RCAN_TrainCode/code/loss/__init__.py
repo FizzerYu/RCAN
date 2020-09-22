@@ -108,6 +108,9 @@ class Loss(nn.modules.loss._Loss):
             label = '{} Loss'.format(l['type'])
             fig = plt.figure()
             plt.title(label)
+            print(axis.shape, self.log[:, i].numpy().shape)
+
+            print(axis, self.log[:, i].numpy())
             plt.plot(axis, self.log[:, i].numpy(), label=label)
             plt.legend()
             plt.xlabel('Epochs')
