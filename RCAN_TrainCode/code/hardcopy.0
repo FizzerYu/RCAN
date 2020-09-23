@@ -1,0 +1,10 @@
+    lr, hr, patch_size, scale, multi_scale=multi_scale
+  File "/home/chenjunming/fizzer/RCAN/RCAN_TrainCode/code/data/common.py", line 27, in get_patch
+    img_tar = img_tar[ty:ty + tp, tx:tx + tp, :]
+IndexError: too many indices for array
+chenjunming@shao-rtx:~/fizzer/RCAN/RCAN_TrainCode/code$ ^C^C
+chenjunming@shao-rtx:~/fizzer/RCAN/RCAN_TrainCode/code$ ^C
+chenjunming@shao-rtx:~/fizzer/RCAN/RCAN_TrainCode/code$ ^C
+chenjunming@shao-rtx:~/fizzer/RCAN/RCAN_TrainCode/code$ ^C
+chenjunming@shao-rtx:~/fizzer/RCAN/RCAN_TrainCode/code$
+

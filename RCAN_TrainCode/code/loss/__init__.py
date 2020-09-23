@@ -17,9 +17,10 @@ class Loss(nn.modules.loss._Loss):
         print('Preparing loss function:')
 
         self.n_GPUs = args.n_GPUs
-        self.loss = []
+        self.loss = []    # 可能存在多个loss，因此是[[loss1],[loss2],[loss3],[loss4]]
         self.loss_module = nn.ModuleList()
         for loss in args.loss.split('+'):
+            
             weight, loss_type = loss.split('*')
             if loss_type == 'MSE':
                 loss_function = nn.MSELoss()
@@ -104,13 +105,11 @@ class Loss(nn.modules.loss._Loss):
 
     def plot_loss(self, apath, epoch):
         axis = np.linspace(1, epoch, epoch)
-        for i, l in enumerate(self.loss):
+        for i, l in enumerate(self.loss):     # 多个loss的话循环作图
             label = '{} Loss'.format(l['type'])
             fig = plt.figure()
             plt.title(label)
-            print(axis.shape, self.log[:, i].numpy().shape)
 
-            print(axis, self.log[:, i].numpy())
             plt.plot(axis, self.log[:, i].numpy(), label=label)
             plt.legend()
             plt.xlabel('Epochs')

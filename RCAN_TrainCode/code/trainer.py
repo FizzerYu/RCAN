@@ -19,8 +19,7 @@ class Trainer():
         self.model = my_model
         self.loss = my_loss
         self.optimizer = utility.make_optimizer(args, self.model)
-        self.scheduler = utility.make_scheduler(args, self.optimizer)
-
+        self.scheduler = utility.make_scheduler(args, self.optimizer)    #  self.scheduler.last_epoch 0
         if self.args.load != '.':
             self.optimizer.load_state_dict(
                 torch.load(os.path.join(ckp.dir, 'optimizer.pt'))
@@ -30,9 +29,9 @@ class Trainer():
         self.error_last = 1e8
 
     def train(self):
-        self.scheduler.step()
+        self.scheduler.step()                                                   #  after   --->    self.scheduler.last_epoch 1
         self.loss.step()
-        epoch = self.scheduler.last_epoch + 1
+        epoch = self.scheduler.last_epoch + 1                                   # epoch = 2
         lr = self.scheduler.get_last_lr()[0]
 
         self.ckp.write_log(
@@ -50,7 +49,7 @@ class Trainer():
             self.optimizer.zero_grad()
             sr = self.model(lr, self.scale)
             loss = self.loss(sr, hr)
-            if loss.item() < self.args.skip_threshold * self.error_last:
+            if loss.item() < self.args.skip_threshold * self.error_last:   # 1e6*1e8
                 loss.backward()
                 self.optimizer.step()
             else:
@@ -61,7 +60,7 @@ class Trainer():
             timer_model.hold()
 
             if (batch + 1) % self.args.print_every == 0:
-                self.ckp.write_log('[{}/{}]\t{}\t{:.1f}+{:.1f}s'.format(
+                self.ckp.write_log('[{}/{}]\t{}\t{:.1f}+{:.1f}s'.format(    # model and data usage time seconds
                     (batch + 1) * self.args.batch_size,
                     len(self.loader_train.dataset),
                     self.loss.display_loss(batch),
@@ -74,7 +73,8 @@ class Trainer():
         self.error_last = self.loss.log[-1, -1]
 
     def test(self):
-        epoch = self.scheduler.last_epoch + 1
+        # epoch = self.scheduler.last_epoch + 1  # 之前的是1，现在是2
+        epoch = self.scheduler.last_epoch   # 之前的是1，现在是2
         self.ckp.write_log('\nEvaluation:')
         self.ckp.add_log(torch.zeros(1, len(self.scale)))
         self.model.eval()
@@ -105,12 +105,12 @@ class Trainer():
                         save_list.extend([lr, hr])
 
                     if self.args.save_results:
-                        self.ckp.save_results(filename, save_list, scale)
+                        self.ckp.save_results(filename, save_list, scale)   # 预测的图片存起来
 
-                self.ckp.log[-1, idx_scale] = eval_acc / len(self.loader_test)
+                self.ckp.log[-1, idx_scale] = eval_acc / len(self.loader_test)   #psnr
                 best = self.ckp.log.max(0)
                 self.ckp.write_log(
-                    '[{} x{}]\tPSNR: {:.3f} (Best: {:.3f} @epoch {})'.format(
+                    '[{} x{}]\tPSNR: {:.3f} (Best: {:.3f} @epoch {})'.format(   # like:  [Set5 x4]       PSNR: 29.322 (Best: 29.322 @epoch 1)
                         self.args.data_test,
                         scale,
                         self.ckp.log[-1, idx_scale],

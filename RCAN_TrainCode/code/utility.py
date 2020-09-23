@@ -76,6 +76,7 @@ class checkpoint():
             f.write('\n')
 
     def save(self, trainer, epoch, is_best=False):
+
         trainer.model.save(self.dir, epoch, is_best=is_best)
         trainer.loss.save(self.dir)
         trainer.loss.plot_loss(self.dir, epoch)    # 这里出bug  指向loss内的啥
@@ -95,7 +96,7 @@ class checkpoint():
         self.log_file.write(log + '\n')
         if refresh:
             self.log_file.close()
-            self.log_file = open(self.dir + '/log.txt', 'a')
+            self.log_file = open(self.dir + '/log.txt', 'a')   # 文件追加
 
     def done(self):
         self.log_file.close()
